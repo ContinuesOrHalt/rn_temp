@@ -1,5 +1,7 @@
 import {get, pick} from 'lodash';
-import {Text, TextInputProps} from 'react-native';
+import {useIntl} from 'react-intl';
+import {Text, TextInputProps, View} from 'react-native';
+import {stylesInput} from './styles';
 
 import TextInputBase from './TextInputBase';
 
@@ -11,55 +13,38 @@ interface InputFormik extends TextInputProps {
   errors: any;
   values: any;
   inputTag?: any;
-  trim?: boolean;
   [name: string]: any;
 }
 
-const ACCEPT_PROPS = [
-  'min',
-  'max',
-  'type',
-  'maxLength',
-  'minLength',
-  'pattern',
-  'required',
-  'size',
-  'disabled',
-  'step',
-  'placeholder',
-  'variant',
-];
+const ACCEPT_PROPS = ['placeholder', 'secureTextEntry'];
 
 const InputFormik: React.FC<InputFormik> = ({
   name,
-  trim,
   handleChange,
   handleBlur,
   touched,
   errors,
   values,
   inputTag: InputTag = TextInputBase,
+  placeholder,
   ...props
 }) => {
+  const {formatMessage} = useIntl();
   const message = get(touched, name) && get(errors, name);
 
-  const _handleBlur = (value: string) => {
-    if (trim && value) {
-      handleChange(name)(value.trim());
-    }
-    handleBlur(name);
-  };
-
   return (
-    <>
+    <View style={stylesInput.container}>
       <InputTag
         {...pick(props, ACCEPT_PROPS)}
         value={get(values, name) || ''}
         onChange={handleChange(name)}
-        onBlur={_handleBlur}
+        onBlur={handleBlur(name)}
+        placeholder={placeholder ? formatMessage({id: placeholder}) : ''}
       />
-      {message && <Text>{message}</Text>}
-    </>
+      <Text numberOfLines={1} style={stylesInput.error}>
+        {message}
+      </Text>
+    </View>
   );
 };
 

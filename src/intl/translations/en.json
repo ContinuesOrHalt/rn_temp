@@ -1,4 +1,7 @@
 {
   "app.name": "ABc",
-  "login": "Login"
+  "login": "Login",
+  "email": "Email",
+  "password": "Password",
+  "": ""
 }

@@ -1,8 +1,29 @@
 import {useLogin} from '../../api/auth';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectLocale, setLanguage} from '../../intl/intlSlice';
+import {useFormik} from 'formik';
+import * as Yup from 'yup';
+import {useHandleErrorMessage} from '../../hooks/message';
+import InputFormik from '../../components/common/input/InputFormik';
+import Button from '../../components/common/button/Button';
+
+const LoginSchema = Yup.object().shape({
+  email: Yup.string()
+    .trim()
+    .required('invalid.mail.required')
+    .max(255, 'invalid.mail.max255')
+    .email('invalid.mail'),
+  password: Yup.string()
+    .trim()
+    .required('invalid.password.required')
+    .max(255, 'invalid.password.max255'),
+});
+
+const LoginInitValue = {
+  email: '',
+  password: '',
+};
 
 const ChangeLanguage = () => {
   const dispatch = useDispatch();
@@ -12,28 +33,57 @@ const ChangeLanguage = () => {
   };
   return (
     <TouchableOpacity onPress={onChangeLanguage}>
-      <Text style={styles.title}>{locale}</Text>
+      <Text style={{fontSize: 30}}>{locale}</Text>
     </TouchableOpacity>
   );
 };
 
 export default function LoginScreen() {
-  const {mutate: login, isLoading} = useLogin();
+  const {mutate: login, isLoading, error} = useLogin();
 
-  const onLogin = () => {
-    login({
-      email: 'string',
-      password: 'string',
+  const message = useHandleErrorMessage(error);
+
+  const handleLogin = async (payload: any) =>
+    login(payload, {
+      onError: (err: any) => {
+        console.log('😡coh / file: LoginScreen.tsx:48 / err', err);
+        // propsFormik.setErrors(getFormikErr(err?.data))
+      },
+      onSuccess: () => {},
     });
-  };
+
+  const {handleSubmit, isSubmitting, ...propsFormik} = useFormik({
+    initialValues: LoginInitValue,
+    validationSchema: LoginSchema,
+    onSubmit: handleLogin,
+  });
+
   return (
     <View style={styles.container}>
-      <ChangeLanguage />
-      <TouchableOpacity onPress={onLogin} disabled={isLoading}>
-        <Text style={styles.title}>
-          <FormattedMessage id="login" />
-        </Text>
-      </TouchableOpacity>
+      <View style={styles.wLang}>
+        <ChangeLanguage />
+      </View>
+      <Text style={{textAlign: 'center'}}>welcome</Text>
+      <View style={{marginTop: 50}}>
+        <InputFormik placeholder="email" name="email" {...propsFormik} />
+      </View>
+      <View style={{marginTop: 10}}>
+        <InputFormik
+          placeholder="password"
+          name="password"
+          // inputTag={InputPassword}
+          secureTextEntry
+          {...propsFormik}
+        />
+      </View>
+
+      {!!message && <Text>{message}</Text>}
+
+      <Button
+        loading={isSubmitting || isLoading}
+        label="login"
+        onPress={handleSubmit}
+      />
     </View>
   );
 }
@@ -41,17 +91,12 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 20,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginTop: 20,
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  wLang: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    padding: 20,
+    marginTop: 50,
   },
 });
