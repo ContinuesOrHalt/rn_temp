@@ -43,8 +43,7 @@ export default function LoginScreen() {
 
   const handleLogin = async (payload: any) =>
     login(payload, {
-      onError: (err: any) => {
-        console.log('😡coh / file: LoginScreen.tsx:48 / err', err);
+      onError: () => {
         // propsFormik.setErrors(getFormikErr(err?.data))
       },
       onSuccess: () => {},

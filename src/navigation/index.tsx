@@ -29,6 +29,7 @@ import {
   RootTabScreenProps,
 } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import SplashScreen from '../screens/splash/SplashScreen';
 
 export default function Navigation({
   colorScheme,
@@ -51,7 +52,11 @@ export default function Navigation({
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  const {data: customer} = useCustomer();
+  const {data: customer, isLoading} = useCustomer();
+
+  if (isLoading) {
+    return <SplashScreen />;
+  }
 
   if (!customer) {
     return (
@@ -118,6 +123,14 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="TabTwo"
+        component={TabTwoScreen}
+        options={{
+          title: 'Tab Two',
+          tabBarIcon: ({color}) => <TabBarIcon name="code2" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="TabThree"
         component={TabTwoScreen}
         options={{
           title: 'Tab Two',

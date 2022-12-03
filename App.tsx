@@ -3,12 +3,10 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import {Provider} from 'react-redux';
 import ModalLoading from './src/components/ModalLoading';
-
 import useColorScheme from './src/hooks/useColorScheme';
 import useInitApp from './src/hooks/useInitApp';
 import I18nProvider from './src/intl/I18nProvider';
 import Navigation from './src/navigation';
-import SplashScreen from './src/screens/splash/SplashScreen';
 import {store} from './src/stores';
 
 const queryClient = new QueryClient({
@@ -24,7 +22,7 @@ export default function App() {
   const isLoadingInitComplete = useInitApp();
 
   if (!isLoadingInitComplete) {
-    return <SplashScreen />;
+    return null;
   }
 
   return (
