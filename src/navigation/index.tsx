@@ -3,7 +3,7 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import LoginScreen from '../screens/login/LoginScreen';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -54,7 +54,13 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   const {data: customer, isLoading} = useCustomer();
 
-  if (isLoading) {
+  // show splash 1.5s
+  const [isShow, setShow] = useState(true);
+  useEffect(() => {
+    setTimeout(() => setShow(false), 1500);
+  }, []);
+
+  if (isLoading || isShow) {
     return <SplashScreen />;
   }
 
