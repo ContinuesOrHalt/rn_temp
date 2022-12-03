@@ -33,6 +33,7 @@ export interface UserDocument {
   postalCode?: string;
   phoneNumber?: string;
   dob?: string;
+  avatar?: string;
   [k: string]: any;
 }
 
