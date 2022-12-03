@@ -2,6 +2,7 @@ import React from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import {Provider} from 'react-redux';
+import ModalLoading from './src/components/ModalLoading';
 
 import useColorScheme from './src/hooks/useColorScheme';
 import useInitApp from './src/hooks/useInitApp';
@@ -33,6 +34,7 @@ export default function App() {
           <SafeAreaProvider>
             <Navigation colorScheme={colorScheme} />
             {/* <StatusBar /> */}
+            <ModalLoading />
           </SafeAreaProvider>
         </QueryClientProvider>
       </I18nProvider>
