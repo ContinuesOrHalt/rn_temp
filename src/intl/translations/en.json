@@ -3,5 +3,9 @@
   "login": "Login",
   "email": "Email",
   "password": "Password",
+  "login.title": "Welcome",
+  "invalid.mail": "Email is invalid",
+  "invalid.mail.required": "Email is required",
+  "invalid.password.required": "Password is required",
   "": ""
 }

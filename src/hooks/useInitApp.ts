@@ -1,6 +1,7 @@
 import {getAsyncStorage} from '../api/storage';
 import {setTokenApi} from '../config/axios';
 import {useEffect, useState} from 'react';
+import {ACCESS_TOKEN} from '../constants';
 
 export default function useInitApp() {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -9,7 +10,7 @@ export default function useInitApp() {
   useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        const token = await getAsyncStorage('token');
+        const token = await getAsyncStorage(ACCESS_TOKEN);
 
         if (token) {
           setTokenApi(token);

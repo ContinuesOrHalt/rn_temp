@@ -1,8 +1,8 @@
 import {useAsyncStorage} from '@react-native-async-storage/async-storage';
 import {useMutation, useQuery, useQueryClient} from 'react-query';
 import axios from '../config/axios';
+import {ACCESS_TOKEN} from '../constants';
 import {getAsyncStorage} from './storage';
-// import { ACCESS_TOKEN } from '@lib/constants/localStorage'
 // import { useRouter } from 'next/router'
 // import { useLocalStorage } from 'react-use'
 
@@ -36,7 +36,7 @@ export interface UserDocument {
   [k: string]: any;
 }
 
-export const useToken = () => useAsyncStorage('token');
+export const useToken = () => useAsyncStorage(ACCESS_TOKEN);
 
 // api
 
@@ -68,7 +68,7 @@ export const updateUser = (payload: UserDocument) =>
 
 export const getCurrentUser: () => Promise<UserDocument | null> = async () => {
   try {
-    const token = await getAsyncStorage('token');
+    const token = await getAsyncStorage(ACCESS_TOKEN);
 
     if (token)
       return {

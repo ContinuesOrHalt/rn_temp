@@ -7,17 +7,15 @@ import * as Yup from 'yup';
 import {useHandleErrorMessage} from '../../hooks/message';
 import InputFormik from '../../components/common/input/InputFormik';
 import Button from '../../components/common/button/Button';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {FormattedMessage} from 'react-intl';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
     .trim()
     .required('invalid.mail.required')
-    .max(255, 'invalid.mail.max255')
     .email('invalid.mail'),
-  password: Yup.string()
-    .trim()
-    .required('invalid.password.required')
-    .max(255, 'invalid.password.max255'),
+  password: Yup.string().trim().required('invalid.password.required'),
 });
 
 const LoginInitValue = {
@@ -59,19 +57,27 @@ export default function LoginScreen() {
   });
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.wLang}>
         <ChangeLanguage />
       </View>
-      <Text style={{textAlign: 'center'}}>welcome</Text>
+      <Text style={{textAlign: 'center'}}>
+        <FormattedMessage id="login.title" />
+      </Text>
       <View style={{marginTop: 50}}>
-        <InputFormik placeholder="email" name="email" {...propsFormik} />
+        <InputFormik
+          placeholder="email"
+          name="email"
+          {...propsFormik}
+          maxLength={50}
+        />
       </View>
       <View style={{marginTop: 10}}>
         <InputFormik
           placeholder="password"
           name="password"
           // inputTag={InputPassword}
+          maxLength={20}
           secureTextEntry
           {...propsFormik}
         />
@@ -84,7 +90,7 @@ export default function LoginScreen() {
         label="login"
         onPress={handleSubmit}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -1,5 +1,5 @@
 import {get, pick} from 'lodash';
-import {useIntl} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {Text, TextInputProps, View} from 'react-native';
 import {stylesInput} from './styles';
 
@@ -16,7 +16,7 @@ interface InputFormik extends TextInputProps {
   [name: string]: any;
 }
 
-const ACCEPT_PROPS = ['placeholder', 'secureTextEntry'];
+const ACCEPT_PROPS = ['placeholder', 'secureTextEntry', 'maxLength'];
 
 const InputFormik: React.FC<InputFormik> = ({
   name,
@@ -42,7 +42,7 @@ const InputFormik: React.FC<InputFormik> = ({
         placeholder={placeholder ? formatMessage({id: placeholder}) : ''}
       />
       <Text numberOfLines={1} style={stylesInput.error}>
-        {message}
+        {!!message && <FormattedMessage id={message} defaultMessage=" " />}
       </Text>
     </View>
   );
