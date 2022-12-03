@@ -1,24 +1,18 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {useLogout} from '../api/auth';
+import {useLogout} from '../../api/auth';
 
-import EditScreenInfo from '../components/EditScreenInfo';
-
-import {RootTabScreenProps} from '../types';
-
-export default function TabOneScreen({}: RootTabScreenProps<'TabOne'>) {
+export default function ProfileScreen() {
   const {mutate: logout} = useLogout();
   const onLogout = () => {
     logout();
   };
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Profile</Text>
+      <View style={styles.separator} />
       <TouchableOpacity onPress={onLogout}>
         <Text style={styles.title}>Logout</Text>
       </TouchableOpacity>
-      <View style={styles.separator} />
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
     </View>
   );
 }

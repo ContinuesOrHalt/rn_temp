@@ -1,13 +1,14 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
-
-export default function TabTwoScreen() {
+export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
+      {/* <TouchableOpacity onPress={onLogout}>
+        <Text style={styles.title}>Logout</Text>
+      </TouchableOpacity>
       <View style={styles.separator} />
-      <EditScreenInfo path="/screens/TabTwoScreen.tsx" />
+      <Text style={styles.title}>Tab One</Text>
+      <View style={styles.separator} /> */}
     </View>
   );
 }
