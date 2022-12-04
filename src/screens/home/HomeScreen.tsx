@@ -30,7 +30,7 @@ export default function HomeScreen() {
             />
           )}
         </View>
-        <Text style={styles.name}>{customer?.firstName || 'aaaaaaa'}</Text>
+        <Text style={styles.name}>{customer?.firstName}</Text>
 
         <View style={styles.gItem}>
           <View style={styles.gRowItem}>
@@ -40,7 +40,7 @@ export default function HomeScreen() {
 
           <View style={styles.gRowItem}>
             <Item label="esign" />
-            <Item label="report 11111 11111 11111 11111 11111" />
+            <Item label="report" />
           </View>
         </View>
       </SafeAreaView>
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#fff',
   },
   body: {
     alignItems: 'center',
